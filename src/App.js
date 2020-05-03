@@ -1,22 +1,26 @@
-import React, { Component } from 'react';
-import WayangList from './WayangList';
-import { Container, Row, Col } from 'react-bootstrap';
-import ModalComponent from './ModalComponent';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { BrowserRouter, Route } from "react-router-dom";
+import Home from "./components/Home";
+import Tentang from "./components/Tentang";
+import Wayang from "./components/Wayang";
+import Pagelaran from "./components/Pagelaran";
+import Navbar from "./layouts/Navbar";
+import "./App.css";
 
 class App extends Component {
   render() {
     return (
-      <Container>
-      <ModalComponent text="Tambah Wayang"/>
-        <Row className="justify-content-md-center">
-          <Col>
-            <WayangList/>
-          </Col>
-        </Row>
-        
-      </Container>
+      <div>
+        <Navbar />
+        <BrowserRouter>
+          <div>
+            <Route path="/" component={Home} />
+            <Route path="/tentang" component={Tentang} />
+            <Route path="/wayang" component={Wayang} />
+            <Route path="/pagelaran" component={Pagelaran} />
+          </div>
+        </BrowserRouter>
+      </div>
     );
   }
 }

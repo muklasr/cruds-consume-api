@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import API from "./API";
+import WayangList from "./WayangList";
 import { Button, Form, Modal } from "react-bootstrap";
 
 class ModalComponent extends React.Component {
@@ -38,6 +39,10 @@ class ModalComponent extends React.Component {
     this.setState({ data: newData });
   };
 
+  handleFormSubmit = () => {
+    this.props.onSubmit("a");
+  }
+
   getWayang = () => {
     API.get(`/wayang/${this.props.id}`)
       .then((res) => {
@@ -50,7 +55,6 @@ class ModalComponent extends React.Component {
 
   displayData = () => {
     this.getWayang();
-    console.log(this.state.data);
   };
 
   saveWayang = () => {
@@ -80,43 +84,25 @@ class ModalComponent extends React.Component {
           this.setState({ error });
         });
     }
-
+    
+    this.handleFormSubmit();
     this.setState({ modalShow: false });
-    // let apiUrl = 'http://wayangapi.herokuapp.com/api/wayang';
-
-    // fetch(apiUrl, {
-    //     method: "POST",
-    //     headers:{
-    //         "Content-Type": "application/json"
-    //     },
-    //     body: JSON.stringify(data)
-    // })
-    //   .then(res => res.json())
-    //   .then(result => {
-    //     this.setState({
-    //       response: result.result
-    //     })
-    //   },
-    //   (error) => {
-    //     this.setState({ error });
-    //   }
-    // )
   };
 
   render() {
     return (
       <div>
-        <Button onClick={() => this.setState({ modalShow: true })}>
+        <Button size="sm" onClick={() => this.setState({ modalShow: true })}>
           {this.props.text}
         </Button>
         <Modal
-          size="lg"
+          size="md"
           show={this.state.modalShow}
           onHide={() => false}
-          aria-labelledby="example-modal-sizes-title-lg"
+          aria-labelledby="example-modal-sizes-title-md"
         >
           <Modal.Header>
-            <Modal.Title id="example-modal-sizes-title-lg">
+            <Modal.Title id="example-modal-sizes-title-md">
               {this.state.isUpdate ? "Ubah " : "Tambah "}
               Wayang
             </Modal.Title>

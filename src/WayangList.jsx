@@ -1,85 +1,133 @@
-import React from 'react';
-import API from './API';
-import { Button, Card, Col, Row } from 'react-bootstrap';
-import ModalComponent from './ModalComponent';
+import React from "react";
+import API from "./API";
+import { Button, Card, Col, Row } from "react-bootstrap";
+import ModalComponent from "./ModalComponent";
+import DetailModal from "./components/DetailModal";
+import SearchBar from "./components/SearchBar";
+import Swal from "sweetalert2";
+import Img from "./components/ImageComponent";
 
-class WayangList extends React.Component{
+class WayangList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      wayangs: [],
+      error: null,
+      show: false,
+      deleting: false,
+      showDetail: false,
+      idDetail: 0,
+    };
+  }
 
-    constructor(props){
-        super(props);
-        this.state = {
-            wayangs: [],
-            error : null
-        }
+  componentDidMount() {
+    this.getWayang();
+  }
+
+  handleFS = (value) => {
+    this.setState({ show: true });
+    this.getWayang();
+    Swal.fire("Yeay", "Berhasil disimpan!", "success");
+  };    
+
+  handleSearch(query){
+    if(query){
+    API.get(`/wayang/search/${query}`)
+      .then((res) => {
+        this.setState({ wayangs: res.data.result });
+      })
+      .catch((error) => {
+        this.setState({ error });
+      });
+      this.render();
+    } else {
+      this.getWayang()
     }
+    
+  }
 
-    componentDidMount() {
-        this.getWayang()
-        // const URL = "http://wayangapi.herokuapp.com/api/wayang";
-        // fetch(URL)
-        // .then(res => res.json())
-        // .then(response => {
-        //     this.setState({wayangs: response.result})
-        // }),
-        // (error) => {
-        //     this.setState({ error });
-        // }
-    }
+showDetail =(id)=>{
+  this.setState({idDetail: id})
+  this.setState({showDetail: true})
+}
 
-    getWayang(){
-        API.get('/wayang')
-        .then(res => {
-            this.setState({wayangs: res.data.result})
-        }).catch(error => {
-            this.setState({ error })
-        })
-    }
+  getWayang() {
+    API.get("/wayang")
+      .then((res) => {
+        this.setState({ wayangs: res.data.result });
+      })
+      .catch((error) => {
+        this.setState({ error });
+      });
+    this.render();
+  }
 
-    deleteWayang= (id) => {
-        API.delete('/wayang/'+id)
-        .then(res => {
-            this.render()
-        }).catch(error => {
-            this.setState({ error })
-        })
-        this.getWayang()
-        this.render()
-    }
+  deleteWayang = (id) => {
+    this.setState({ delete: true });
+    API.delete("/wayang/" + id)
+      .then((res) => {
+        this.getWayang();
+        Swal.fire("Yeay", "Berhasil dihapus!", "success");
+      })
+      .catch((error) => {
+        this.setState({ error });
+        Swal.fire("Oops..", "Gagal dihapus!", "error");
+      });
+    this.setState({ delete: false });
+  };
 
-    render(){
-        const { wayangs, error } = this.state;
-        if(error){
-            return ( <div>Error : {error.message}</div>);
-        } else {
-            return (
-                <Row>
-                {wayangs.map(wayang => (
-                    <Col md={3} key={wayang.id}>
-                        <Card>
-                            <Card.Img variant="top" src={wayang.image_url} />
-                            <Card.Body>
-                            <Card.Title>{wayang.nama}</Card.Title>
-                            <Card.Text>
-                                {/* <p>{wayang.golongan}</p>
-                                <p>{wayang.kasta}</p>
-                                <p>{wayang.senjata}</p>
-                                <p>{wayang.ayah}</p>
-                                <p>{wayang.ibu}</p>
-                                <p>{wayang.pasangan}</p>
-                                <p>{wayang.anak}</p> */}
-                            </Card.Text>
-                            </Card.Body>
-                            <Card.Footer>
-                                <ModalComponent id={wayang.id} text="Edit"/>
-                                &nbsp;<Button variant="danger" onClick={() => this.deleteWayang(wayang.id)}>Delete</Button>
-                            </Card.Footer>
-                        </Card>
-                    </Col>
-                ))}
-                </Row>
-            )
-        }
-    }
+  render() {
+    const { wayangs, error, deleting } = this.state;
+    return (
+      <div>
+        <SearchBar onSubmit={val => this.handleSearch(val)} />
+        <DetailModal id={this.state.idDetail} show={this.state.showDetail}/>
+        <ModalComponent
+          text="Tambah Wayang"
+          onSubmit={(value) => this.handleFS(value)}
+        />
+        <Row style={{ marginTop: 10 }}>
+          {error ? (
+            <div>
+              Gagal memuat data <br></br> Error : {error.message}
+            </div>
+          ) : (
+            wayangs.map((wayang) => (
+              <Col sm={6} md={3} lg={2} key={wayang.id}>
+                <Card onClick={this.showDetail}>
+                  <div style={{ height: 250, position: "relative" }}>
+                    <Img src={wayang.image_url} style={{ width: "100%" }} />
+                  </div>
+                  <Card.Body>
+                    <Card.Title as="h6">{wayang.nama}</Card.Title>
+                    <Card.Text></Card.Text>
+                  </Card.Body>
+                  <Card.Footer>
+                    <Row>
+                      <ModalComponent
+                        id={wayang.id}
+                        text="Ubah"
+                        onSubmit={(value) => this.handleFS(value)}
+                      />
+                      &nbsp;
+                      <Button
+                        size="sm"
+                        variant="danger"
+                        disabled={deleting}
+                        onClick={() => this.deleteWayang(wayang.id)}
+                      >
+                        {deleting ? "Tunggu.." : "Hapus"}
+                      </Button>
+                    </Row>
+                  </Card.Footer>
+                </Card>
+              </Col>
+            ))
+          )}
+        </Row>
+      </div>
+    );
+  }
 }
 
 export default WayangList;
