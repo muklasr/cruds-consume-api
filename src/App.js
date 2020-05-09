@@ -14,10 +14,11 @@ class App extends Component {
         <Navbar />
         <BrowserRouter>
           <div>
-            <Route path="/" component={Home} />
+            <Route exact path="/" component={Home} />
             <Route path="/tentang" component={Tentang} />
             <Route path="/wayang" component={Wayang} />
             <Route path="/pagelaran" component={Pagelaran} />
+            
           </div>
         </BrowserRouter>
       </div>
