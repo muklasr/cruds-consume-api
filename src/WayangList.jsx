@@ -47,8 +47,11 @@ class WayangList extends React.Component {
   }
 
 showDetail =(id)=>{
+  if(id != "0"){
   this.setState({idDetail: id})
   this.setState({showDetail: true})
+  }
+  console.log("tes "+id)
 }
 
   getWayang() {
@@ -81,7 +84,7 @@ showDetail =(id)=>{
     return (
       <div>
         <SearchBar onSubmit={val => this.handleSearch(val)} />
-        <DetailModal id={this.state.idDetail} show={this.state.showDetail}/>
+        <DetailModal idWayang={this.state.idDetail} show={this.state.showDetail}/>
         <ModalComponent
           text="Tambah Wayang"
           onSubmit={(value) => this.handleFS(value)}
@@ -94,7 +97,7 @@ showDetail =(id)=>{
           ) : (
             wayangs.map((wayang) => (
               <Col sm={6} md={3} lg={2} key={wayang.id}>
-                <Card onClick={this.showDetail}>
+                <Card onClick={event => this.showDetail(wayang.id)}>
                   <div style={{ height: 250, position: "relative" }}>
                     <Img src={wayang.image_url} style={{ width: "100%" }} />
                   </div>

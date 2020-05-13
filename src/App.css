@@ -25,4 +25,8 @@
 
 .isi {
   background-image: url("../src/assets/bg.jpg");
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  background-size: cover;
 }
