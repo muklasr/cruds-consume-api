@@ -5,7 +5,11 @@ import Img from "./ImageComponent";
 
 class DetailModal extends React.Component {
   constructor(props) {
+    
     super(props);
+
+
+    
     this.state = {
       idWayang: 0,
       response: [],
@@ -114,9 +118,10 @@ class DetailModal extends React.Component {
             </Container>
             <Button
                 variant="secondary"
+                style={{shadowBox:"1px 1px blue-solid"}}
                 onClick={() => this.setState({modalShow: false})}
               >
-                Batal
+                Oke
               </Button>
           </Modal.Body>
         </Modal>

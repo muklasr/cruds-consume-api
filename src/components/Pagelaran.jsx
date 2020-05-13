@@ -4,8 +4,8 @@ import React from 'react'
 const Pagelaran = () => {
     return ( 
     <div>
-        <hi>
-            pagelaran
+        <hi className="container ml-4">
+            coming soon...
         </hi> 
     </div>
     )

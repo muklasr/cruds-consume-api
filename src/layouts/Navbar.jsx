@@ -11,11 +11,11 @@ const NavbarComponent = () => {
             <Navbar bg="warning" variant="dark">
                 <Navbar.Brand className="ml-4"><img src={logo} height={30}/></Navbar.Brand>
                 <Nav className="ml-auto mr-4">
-                    <Nav.Link className="nav-link" activeClassName="active" exact 
+                    <Nav.Link className="nav-link active" activeClassName="active" exact 
                     href="/" >Beranda</Nav.Link>
-                    <Nav.Link className="nav-link" activeClassName="active" exact
+                    <Nav.Link className="nav-link active" activeClassName="active" exact
                     href="/Wayang">Wayang</Nav.Link>
-                    <Nav.Link className="nav-link" activeClassName="active" exact
+                    <Nav.Link className="nav-link active" activeClassName="active" exact
                     href="/Pagelaran">Pagelaran</Nav.Link>
                 </Nav>
             </Navbar>

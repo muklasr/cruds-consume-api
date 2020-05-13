@@ -7,7 +7,16 @@ class Home extends Component {
       return (
   
        <div className="isi">
-       <a>home</a>
+       <div className="anu">
+         <h1 className="title" >Ningali Wayang</h1>
+         <br/>
+         <p>Adalah website untuk mengenal lebih dalam mengenai 
+         <br/>
+         tokoh pewayangan. Website ini kami buat agar menumbuhkan   
+         <br/>
+         kembali rasa peduli terhadap budaya daerah, khusunya pewayangan.
+         </p>
+       </div>
        </div>
   
       )

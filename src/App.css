@@ -24,9 +24,24 @@
 }
 
 .isi {
-  background-image: url("../src/assets/bg.jpg");
+  background-image: url("../src/assets/bgnew.png");
   height: 100vh;
   width: 100%;
   position: fixed;
   background-size: cover;
 }
+
+.anu{
+    margin-left: 10vh;
+    margin-top: 15vh;
+    color: darkgray;
+    font-family: Helvetica;
+}
+
+.title{
+  font-size: 4rem;
+  color: #fff;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif
+}
+
+
